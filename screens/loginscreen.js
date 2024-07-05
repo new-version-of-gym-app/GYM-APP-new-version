@@ -10,7 +10,7 @@ const Loginscreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <LinearGradient style={styles.gradient} colors={["#9BEC00", "#000000"]}>
+      <LinearGradient style={styles.gradient} colors={["#577B8D", "#000000"]}>
         <ImageBackground
           source={require("../assets/images/img1login.jpg")}
           resizeMode="cover"
@@ -20,7 +20,7 @@ const Loginscreen = ({navigation}) => {
           <View style={styles.overlay}>
             <Text style={styles.title}>Login</Text>
             <TextInput style={styles.input} placeholder="Put your email" placeholderTextColor="#fff" />
-            <TextInput style={styles.input} placeholder="Password ..." placeholderTextColor="#fff" secureTextEntry={true} />
+            <TextInput style={styles.input} placeholder="Password " placeholderTextColor="#fff" secureTextEntry={true} />
             <Btnlogin />
             <View style={styles.registerContainer}>
               <Text style={styles.registerText}>Don't have an account? </Text>
@@ -46,9 +46,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    
   },
   image: {
-    opacity: 0.5,
+    opacity: 0.25,
   },
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
