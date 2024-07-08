@@ -13,7 +13,7 @@ const BtnRegister = () => {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#1B1A55',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,

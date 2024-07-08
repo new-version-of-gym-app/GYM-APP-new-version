@@ -5,7 +5,7 @@ import BtnRegister from '../componets/Auth-buttons/btnregister';
 const Registerscreen = () => {
     return (
         <View style={styles.container}>
-        <LinearGradient style={styles.gradient} colors={["#9BEC00", "#000000"]}>
+        <LinearGradient style={styles.gradient} colors={["#577B8D", "#000000"]}>
           <ImageBackground
             source={require("../assets/images/img1register.jpg")}
             resizeMode="cover"
@@ -17,7 +17,7 @@ const Registerscreen = () => {
               <TextInput style={styles.input} placeholder="Name" placeholderTextColor="#fff" />
               <TextInput style={styles.input} placeholder="Lastname" placeholderTextColor="#fff" />
               <TextInput style={styles.input} placeholder="Put your email" placeholderTextColor="#fff" />
-              <TextInput style={styles.input} placeholder="Password ..." placeholderTextColor="#fff" secureTextEntry={true} />
+              <TextInput style={styles.input} placeholder="Password " placeholderTextColor="#fff" secureTextEntry={true} />
             <BtnRegister/>
             </View>
           </ImageBackground>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
       alignItems: "center",
     },
     image: {
-      opacity: 0.5,
+      opacity: 0.25,
     },
     overlay: {
       backgroundColor: 'rgba(0, 0, 0, 0.6)',
