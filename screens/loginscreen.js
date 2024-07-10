@@ -1,11 +1,28 @@
 import { View, Text, ImageBackground, StyleSheet, TextInput, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Btnlogin from "../componets/Auth-buttons/btnlogin";
+import { useState } from "react";
+import {FIREBASE_AUTH}from '../FirebaseConfig'
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Loginscreen = ({navigation}) => {
 
    const hundelregister = ()=>{
   navigation.navigate("register")
+   }
+
+   const [email,setEmail]=useState('')
+   const [password,setPassword]=useState('')
+   const [loading,setLoading]=useState(false)
+   const auth = FIREBASE_AUTH;
+
+   const signIn=async ()=>{
+    try {
+      const res =await signInWithEmailAndPassword(auth,email,password);
+      alert('Login succefull')
+    } catch (error) {
+      alert(error)      
+    }
    }
 
   return (
@@ -19,9 +36,9 @@ const Loginscreen = ({navigation}) => {
         >
           <View style={styles.overlay}>
             <Text style={styles.title}>Login</Text>
-            <TextInput style={styles.input} placeholder="Put your email" placeholderTextColor="#fff" />
-            <TextInput style={styles.input} placeholder="Password " placeholderTextColor="#fff" secureTextEntry={true} />
-            <Btnlogin />
+            <TextInput value={email} style={styles.input} placeholder="Put your email" placeholderTextColor="#fff" autoCapitalize="none" onChangeText={(text)=>setEmail(text)}/>
+            <TextInput value={password} style={styles.input} placeholder="Password " placeholderTextColor="#fff" autoCapitalize="none" onChangeText={(text)=>setPassword(text)} secureTextEntry={true} />
+            <Btnlogin click={signIn}/>
             <View style={styles.registerContainer}>
               <Text style={styles.registerText}>Don't have an account? </Text>
               <Pressable onPress={hundelregister}>
