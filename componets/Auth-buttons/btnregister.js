@@ -1,8 +1,8 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 
-const BtnRegister = () => {
+const BtnRegister = ({click}) => {
   return (
-    <Pressable style={styles.button}>
+    <Pressable onPress={click} style={styles.button}>
       <View>
         <Text style={styles.buttonText}>Register</Text>
       </View>

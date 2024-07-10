@@ -1,8 +1,27 @@
 import { View, Text, ImageBackground, StyleSheet, TextInput, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import BtnRegister from '../componets/Auth-buttons/btnregister';
+import {FIREBASE_AUTH}from '../FirebaseConfig'
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
 
 const Registerscreen = () => {
+
+  const [email,setEmail]=useState('')
+  const [password,setPassword]=useState('')
+  const [name,setName]=useState('')
+  const [lastname,setlastname]=useState('')
+  const auth = FIREBASE_AUTH;
+
+  const signUp = async ()=>{
+    try {
+      const res =await createUserWithEmailAndPassword(auth,email,password);
+      alert('User Created !')
+    } catch (error) {
+      alert(error)      
+    }
+   }
+
     return (
         <View style={styles.container}>
         <LinearGradient style={styles.gradient} colors={["#577B8D", "#000000"]}>
@@ -14,11 +33,11 @@ const Registerscreen = () => {
           >
             <View style={styles.overlay}>
               <Text style={styles.title}>Register</Text>
-              <TextInput style={styles.input} placeholder="Name" placeholderTextColor="#fff" />
-              <TextInput style={styles.input} placeholder="Lastname" placeholderTextColor="#fff" />
-              <TextInput style={styles.input} placeholder="Put your email" placeholderTextColor="#fff" />
-              <TextInput style={styles.input} placeholder="Password " placeholderTextColor="#fff" secureTextEntry={true} />
-            <BtnRegister/>
+              <TextInput value={name} style={styles.input} placeholder="Name" placeholderTextColor="#fff" autoCapitalize="none" onChangeText={(text)=>setName(text)}/>
+              <TextInput value={lastname} style={styles.input} placeholder="Lastname" placeholderTextColor="#fff" autoCapitalize="none" onChangeText={(text)=>setlastname(text)} />
+              <TextInput value={email} style={styles.input} placeholder="Put your email" placeholderTextColor="#fff" autoCapitalize="none" onChangeText={(text)=>setEmail(text)}/>
+              <TextInput value={password} style={styles.input} placeholder="Password " placeholderTextColor="#fff" autoCapitalize="none" onChangeText={(text)=>setPassword(text)} secureTextEntry={true} />
+            <BtnRegister click={signUp}/>
             </View>
           </ImageBackground>
         </LinearGradient>
