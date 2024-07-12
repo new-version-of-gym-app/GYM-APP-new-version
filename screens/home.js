@@ -1,48 +1,217 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import {createDrawerNavigator} from '@react-navigation/drawer'
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import { FIREBASE_AUTH } from '../FirebaseConfig'
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { SimpleLineIcons } from "@expo/vector-icons";
 
-const drawer = createDrawerNavigator()
+import { FIREBASE_AUTH } from "../FirebaseConfig";
+import Feeds from "./Feeds";
+import Programs from "./Programs";
+import Notifications from "./Notifications";
+import Category from "./Category";
+import Coachs from "./Coachs";
+import Following from "./following";
+import Profile from "./Profile";
 
+const Drawer = createDrawerNavigator();
+const Tabs = createBottomTabNavigator();
+
+const Logout = () => null;
+
+const Tabnavigator = () => {
+  return (
+    <Tabs.Navigator
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: "black",
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="Category"
+        component={Category}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ size, focused }) => {
+            return (
+              <MaterialIcons
+                name="category"
+                size={size}
+                color={focused ? "white" : "blue"}
+              />
+            );
+          },
+          tabBarLabel: ({ focused }) => (
+            <Text style={{ color: focused ? "white" : "blue" }}>Category</Text>
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="Feed"
+        component={Feeds}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ size, focused }) => {
+            return (
+              <MaterialIcons
+                name="feed"
+                size={size}
+                color={focused ? "white" : "blue"}
+              />
+            );
+          },
+          tabBarLabel: ({ focused }) => (
+            <Text style={{ color: focused ? "white" : "blue" }}>Feed</Text>
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="Programs"
+        component={Programs}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused, size }) => {
+            return (
+              <MaterialCommunityIcons
+                name="weather-lightning"
+                size={size}
+                color={focused ? "white" : "blue"}
+              />
+            );
+          },
+          tabBarLabel: ({ focused }) => (
+            <Text style={{ color: focused ? "white" : "blue" }}>Programs</Text>
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="Notifications"
+        component={Notifications}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused, size }) => {
+            return (
+              <MaterialIcons
+                name="notifications-none"
+                size={size}
+                color={focused ? "white" : "blue"}
+              />
+            );
+          },
+          tabBarLabel: ({ focused }) => (
+            <Text style={{ color: focused ? "white" : "blue" }}>
+              Notifications
+            </Text>
+          ),
+        }}
+      />
+    </Tabs.Navigator>
+  );
+};
 
 const Home = () => {
   return (
-    // <View style={styles.container}>
-    //   <Pressable onPress={()=>FIREBASE_AUTH.signOut()} style={styles.button}>
-    //   <View>
-    //     <Text style={styles.buttonText}>Log Out</Text>
-    //   </View>
-    // </Pressable>
-    // </View>
-    <View>
-      <Text>
-        hello
-      </Text>
-    </View>
-    
-  )
-}
+    <>
+      <Drawer.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "black",
+          },
+          headerTintColor: "white",
+        }}
+      >
+        <Drawer.Screen
+          name="START MOVING"
+          component={Tabnavigator}
+          options={{
+            drawerIcon: ({ size, color }) => {
+              return <Ionicons name="home" size={size} color={color} />;
+            },
+          }}
+        />
 
-export default Home
+        <Drawer.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            drawerIcon: ({ color, size }) => {
+              return <AntDesign name="user" size={size} color={color} />;
+            },
+          }}
+        />
+
+        <Drawer.Screen
+          name="Coaches"
+          component={Coachs}
+          options={{
+            drawerIcon: ({ size, color }) => {
+              return (
+                <FontAwesome5 name="hands-helping" size={size} color={color} />
+              );
+            },
+          }}
+        />
+        <Drawer.Screen
+          name="Following"
+          component={Following}
+          options={{
+            drawerIcon: ({ size, color }) => {
+              return (
+                <SimpleLineIcons
+                  name="user-following"
+                  size={size}
+                  color={color}
+                />
+              );
+            },
+          }}
+        />
+
+        <Drawer.Screen
+          name="Logout"
+          component={Logout}
+          options={{
+            drawerIcon: ({ size, color }) => (
+              <AntDesign name="logout" size={size} color={color} />
+            ),
+            drawerLabel: ({ color }) => (
+              <Pressable onPress={() => FIREBASE_AUTH.signOut()}>
+                <Text style={{ color }}>Logout</Text>
+              </Pressable>
+            ),
+          }}
+        />
+      </Drawer.Navigator>
+    </>
+  );
+};
+
+export default Home;
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#1B1A55',
+    backgroundColor: "#1B1A55",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
     marginTop: 20,
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
   },
-  container:{
-    alignItems: 'center',
-  }
+  container: {
+    alignItems: "center",
+  },
 });
