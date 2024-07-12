@@ -31,7 +31,13 @@ export default function App() {
           {user ? (
             <>
               <Stack.Screen name="home" component={Home} options={{ headerShown: false }} />
-              <Stack.Screen name="Details" component={Details} />
+              <Stack.Screen name="Details" component={Details} options={{
+               headerStyle : {
+                backgroundColor : "black" , 
+              
+               } , 
+               headerTintColor : "white" ,
+              }} />
             </>
           ) : (
             <>

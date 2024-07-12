@@ -17,7 +17,8 @@ import Category from "./Category";
 import Coachs from "./Coachs";
 import Following from "./following";
 import Profile from "./Profile";
-
+import Area from "./area";
+import { Feather } from '@expo/vector-icons';
 const Drawer = createDrawerNavigator();
 const Tabs = createBottomTabNavigator();
 
@@ -126,6 +127,9 @@ const Home = () => {
             backgroundColor: "black",
           },
           headerTintColor: "white",
+          drawerStyle: { backgroundColor: "black" },
+
+          drawerInactiveTintColor: "white",
         }}
       >
         <Drawer.Screen
@@ -174,6 +178,20 @@ const Home = () => {
             },
           }}
         />
+
+
+<Drawer.Screen
+          name="YOUR AREA"
+          component={Area}
+          options={{
+            drawerIcon: ({ size, color }) => {
+              return (
+                <Feather name="map-pin" size={size} color={color} />
+              );
+            },
+          }}
+        />
+
 
         <Drawer.Screen
           name="Logout"

@@ -32,7 +32,7 @@ export const DESCRIPTION = [
     "m1",
     "c1",
     "31 Yoga Poses for Beginners",
-    "https://www.researchgate.net/publication/354715086/figure/fig1/AS:1134089235107856@1647399352647/Sample-of-14-different-yoga-postures.png",
+    "https://www.yogabreezebali.com/wp-content/uploads/yoga-poses-mosaic-800px..jpg",
     [
       "Downward Facing Dog (Adho Mukha Svanasana)",
       "Mountain Pose (Tadasana)",
@@ -71,7 +71,7 @@ export const DESCRIPTION = [
     "m2",
     "c2",
     "PILATES & BARRE in 10 DAYS",
-    "https://learnmuscles.com/wp-content/uploads/2018/06/Screen-Shot-2018-05-28-at-11.44.32-PM.png",
+    "https://i.pinimg.com/originals/ba/e2/47/bae2479125592368487d923131d63347.jpg",
     [
       "Day 1: 35-Minute Lower Body Dumbbell Workout",
       "Day 2: 25-Minute Pilates Barre Class At Home",
