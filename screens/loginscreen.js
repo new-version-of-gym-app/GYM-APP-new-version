@@ -19,7 +19,6 @@ const Loginscreen = ({navigation}) => {
    const signIn=async ()=>{
     try {
       const res =await signInWithEmailAndPassword(auth,email,password);
-      alert('Login succefull')
     } catch (error) {
       alert(error)      
     }
