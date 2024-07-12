@@ -9,6 +9,7 @@ import Registerscreen from "./screens/registerscreens";
 import { onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "./FirebaseConfig";
 import Home from "./screens/home";
+import Details from "./screens/Details";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,9 +27,12 @@ export default function App() {
     <>
       <StatusBar style="light" />
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName={user ? "home" : "accueil"}>
           {user ? (
-            <Stack.Screen name="home" component={Home} options={{ headerShown: false }} />
+            <>
+              <Stack.Screen name="home" component={Home} options={{ headerShown: false }} />
+              <Stack.Screen name="Details" component={Details} />
+            </>
           ) : (
             <>
               <Stack.Screen name="accueil" component={Getstartscreen} options={{ headerShown: false }} />
