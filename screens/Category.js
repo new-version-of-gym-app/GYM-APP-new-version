@@ -7,7 +7,7 @@ const Category = ({navigation}) => {
   const getdata = (itemdata) => {
 
    const navigatetodetailpage = ()=>{
-    navigation.navigate("Details" , {catid : itemdata.item.data})
+    navigation.navigate("Details" , {catid : itemdata.item.id})
    }
 
     return (
