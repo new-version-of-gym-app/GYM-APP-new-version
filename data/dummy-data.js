@@ -1,3 +1,4 @@
+
 import Category from "../models/category";
 import Information from "../models/information";
 
@@ -7,19 +8,16 @@ export const CATEGORIES = [
     "YOGA",
     "https://t4.ftcdn.net/jpg/02/36/24/71/360_F_236247111_5LuBqQS1netR5GqjsY8UPU0z3oTlE4H9.jpg"
   ),
-
   new Category(
     "c2",
     "PILATES & BARRE",
     "https://www.kiralates.com.au/uploads/5/4/5/6/54564945/__5902504_orig.jpg"
   ),
-
   new Category(
     "c3",
     "FITNESS",
     "https://t3.ftcdn.net/jpg/06/52/33/66/360_F_652336682_U0tRWOuRwVNzRFeIVgqk8CQgVFBKYeWP.jpg"
   ),
-
   new Category(
     "c4",
     "MEDITATION",
@@ -107,7 +105,6 @@ export const DESCRIPTION = [
     "c4",
     "Exercises to Help with Anxiety and Stress",
     "https://cdn.sanity.io/images/0vv8moc6/curetoday/679c331fa33db422690eb85c2c5d1343b14d8ad1-740x528.png",
-
     [
       "Get into a comfortable position",
       "Close your eyes for a deeper practice",
@@ -117,4 +114,10 @@ export const DESCRIPTION = [
       "Move progressively up your body",
     ]
   ),
+];
+
+export const NOTIFICATIONS = [
+  { id: '1', title: 'Welcome to the Gym App!', date: '2024-07-01' },
+  { id: '2', title: 'Your Account Was Created Successfully!', date: '2024-07-01' },
+  { id: '3', title: 'New workout programs available.', date: '2024-07-10' },
 ];
