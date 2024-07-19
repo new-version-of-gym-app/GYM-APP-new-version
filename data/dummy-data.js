@@ -1,3 +1,4 @@
+
 import Category from "../models/category";
 import Information from "../models/information";
 
@@ -7,19 +8,16 @@ export const CATEGORIES = [
     "YOGA",
     "https://t4.ftcdn.net/jpg/02/36/24/71/360_F_236247111_5LuBqQS1netR5GqjsY8UPU0z3oTlE4H9.jpg"
   ),
-
   new Category(
     "c2",
     "PILATES & BARRE",
     "https://www.kiralates.com.au/uploads/5/4/5/6/54564945/__5902504_orig.jpg"
   ),
-
   new Category(
     "c3",
     "FITNESS",
     "https://t3.ftcdn.net/jpg/06/52/33/66/360_F_652336682_U0tRWOuRwVNzRFeIVgqk8CQgVFBKYeWP.jpg"
   ),
-
   new Category(
     "c4",
     "MEDITATION",
@@ -107,7 +105,6 @@ export const DESCRIPTION = [
     "c4",
     "Exercises to Help with Anxiety and Stress",
     "https://cdn.sanity.io/images/0vv8moc6/curetoday/679c331fa33db422690eb85c2c5d1343b14d8ad1-740x528.png",
-
     [
       "Get into a comfortable position",
       "Close your eyes for a deeper practice",
@@ -118,3 +115,25 @@ export const DESCRIPTION = [
     ]
   ),
 ];
+
+export const NOTIFICATIONS = [
+  { id: '1', title: 'Welcome to the Gym App!', date: '2024-07-01' },
+  { id: '2', title: 'Your Account Was Created Successfully!', date: '2024-07-01' },
+  { id: '3', title: 'New workout programs available.', date: '2024-07-10' },
+];
+
+// des programmes de sport 
+const programs = [
+  { id: '1', name: 'Morning Yoga', duration: '30 min', description: 'A yoga program to start your day off right.', intensity: 'Low' },
+  { id: '2', name: 'Running', duration: '45 min', description: 'A running session to improve your endurance.', intensity: 'Medium' },
+  { id: '3', name: 'Strength Training', duration: '60 min', description: 'A strength training program to build your muscles.', intensity: 'High' },
+  { id: '4', name: 'HIIT', duration: '20 min', description: 'A high-intensity interval training to burn calories quickly.', intensity: 'Very High' },
+  { id: '5', name: 'Pilates', duration: '40 min', description: 'A pilates program to improve your flexibility and posture.', intensity: 'Low' },
+  { id: '6', name: 'Cycling', duration: '50 min', description: 'A cycling session to work your legs and cardio.', intensity: 'Medium' },
+  { id: '7', name: 'Boxing', duration: '45 min', description: 'A boxing workout to improve your strength and endurance.', intensity: 'High' },
+  { id: '8', name: 'Cardio Dance', duration: '35 min', description: 'A cardio dance program to burn calories while having fun.', intensity: 'Medium' },
+  { id: '9', name: 'Stretching', duration: '25 min', description: 'A stretching program to improve your flexibility and prevent injuries.', intensity: 'Low' },
+  { id: '10', name: 'CrossFit', duration: '55 min', description: 'A CrossFit workout for complete physical conditioning.', intensity: 'Very High' },
+];
+
+export default programs;
