@@ -1,6 +1,8 @@
 import {View ,Text,Image ,StyleSheet} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+
 const profilePic=require("../assets/images/tempPic.jpg")
 const editPic=require("../assets/images/edit.png")
 const privacyPic=require('../assets/images/privacy.png')
@@ -17,7 +19,16 @@ const Profile = () => {
                     <Text style={styles.name}>Test Test</Text>
                     <Text style={styles.role}>User</Text>
                 </View>
-
+                <View style={styles.userInfo}>
+                    <View style={styles.row}>
+                        <Icon name="phone" color="#777777" size={20}></Icon>
+                        <Text style={{color:"#777777",marginLeft:20}}>+216-63504220 </Text>
+                    </View>
+                    <View style={styles.row}>
+                        <Icon name="email" color="#777777" size={20}></Icon>
+                        <Text style={{color:"#777777",marginLeft:20}}>email@email.tn </Text>
+                    </View>
+                </View>
                 <TouchableOpacity style={styles.buttonSection} activeOpacity={0.9}>
                     <View style={styles.buttonArea}>
                         <View style={styles.imageArea}>
@@ -62,7 +73,7 @@ const styles= StyleSheet.create({
         flex:1,
     },
     topSection:{
-        height:300,
+        height:250,
         justifyContent:'center',
         alignItems:'center',
     },
@@ -122,5 +133,16 @@ const styles= StyleSheet.create({
         height:0.7,
         backgroundColor:'#FFFFFF90',
         marginTop:8,
+    },
+    userInfo:{
+        alignContent:'center',
+        alignItems:"center",
+        paddingHorizontal:30,
+        marginTop:15,
+        marginBottom:5,    
+    },
+    row:{
+        flexDirection:"row",
+        marginBottom:10,
     },
 })
