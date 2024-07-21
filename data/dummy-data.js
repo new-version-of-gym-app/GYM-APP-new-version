@@ -117,9 +117,54 @@ export const DESCRIPTION = [
 ];
 
 export const NOTIFICATIONS = [
-  { id: '1', title: 'Welcome to the Gym App!', date: '2024-07-01' },
-  { id: '2', title: 'Your Account Was Created Successfully!', date: '2024-07-01' },
-  { id: '3', title: 'New workout programs available.', date: '2024-07-10' },
+  {
+    id: '1',
+    type: 'welcome',
+    title: 'Welcome to the Gym App!',
+    content: 'Get ready to start your fitness journey with us.',
+    date: '2024-07-01 09:00',
+    read: false
+  },
+  {
+    id: '2',
+    type: 'account',
+    title: 'Your Account Was Created Successfully!',
+    content: 'You can now access all features of the Gym App.',
+    date: '2024-07-01 09:05',
+    read: false
+  },
+  {
+    id: '3',
+    type: 'program',
+    title: 'New workout programs available',
+    content: 'Check out our latest strength training and cardio programs.',
+    date: '2024-07-10 14:30',
+    read: false
+  },
+  {
+    id: '4',
+    type: 'achievement',
+    title: 'Congratulations on your first workout!',
+    content: "You've completed your first session. Keep up the good work!",
+    date: '2024-07-15 18:45',
+    read: true
+  },
+  {
+    id: '5',
+    type: 'social',
+    title: 'John Doe started following you',
+    content: 'You have a new follower in the Gym App community.',
+    date: '2024-07-20 11:20',
+    read: false
+  },
+  {
+    id: '6',
+    type: 'reminder',
+    title: "Don't forget your workout today",
+    content: 'You have a scheduled session in 1 hour. Get ready!',
+    date: '2024-07-25 16:00',
+    read: false
+  }
 ];
 
 // des programmes de sport 
@@ -137,3 +182,84 @@ const programs = [
 ];
 
 export default programs;
+
+const FEED_ITEMS = [
+  {
+    id: '1',
+    userAvatar: 'https://example.com/avatar1.jpg',
+    username: 'JohnDoe',
+    timestamp: '2h ago',
+    title: 'Great workout today!',
+    content: 'Just finished an intense HIIT session. Feeling pumped!',
+    image: 'https://example.com/workout.jpg',
+    likes: 15,
+    liked: false,
+    comments: [
+      { id: 'c1', author: 'Jane', text: 'Way to go!', time: '1h ago' },
+      { id: 'c2', author: 'Mike', text: 'What was your routine?', time: '30m ago' },
+      { id: 'c3', author: 'John', text: 'We Should go together next time :)', time: '15m ago' }
+    ]
+  },
+  {
+    id: '2',
+    userAvatar: 'https://example.com/avatar2.jpg',
+    username: 'FitnessGal',
+    timestamp: '1d ago',
+    title: 'Yoga for flexibility',
+    content: 'Spent an hour doing yoga today. My flexibility is improving!',
+    image: 'https://example.com/yoga.jpg',
+    likes: 25,
+    liked: true,
+    comments: [
+      { id: 'c3', author: 'Sara', text: 'Awesome! Keep it up!', time: '12h ago' },
+      { id: 'c4', author: 'Tom', text: 'Which poses did you focus on?', time: '10h ago' }
+    ]
+  },
+  {
+    id: '3',
+    userAvatar: 'https://example.com/avatar3.jpg',
+    username: 'GymRat',
+    timestamp: '3h ago',
+    title: 'New PR in bench press!',
+    content: 'Hit a new personal record in bench press today. 200 lbs!',
+    image: 'https://example.com/benchpress.jpg',
+    likes: 30,
+    liked: false,
+    comments: [
+      { id: 'c5', author: 'Mark', text: 'Congrats! That\'s impressive!', time: '2h ago' },
+      { id: 'c6', author: 'Emily', text: 'What\'s your next goal?', time: '1h ago' }
+    ]
+  },
+  {
+    id: '4',
+    userAvatar: 'https://example.com/avatar4.jpg',
+    username: 'RunnerLife',
+    timestamp: '5h ago',
+    title: 'Morning run',
+    content: 'Completed a 5k run this morning. Feeling energized!',
+    image: 'https://example.com/run.jpg',
+    likes: 20,
+    liked: true,
+    comments: [
+      { id: 'c7', author: 'Lily', text: 'Great job! Keep it up!', time: '4h ago' },
+      { id: 'c8', author: 'David', text: 'Any tips for beginners?', time: '3h ago' }
+    ]
+  },
+  {
+    id: '5',
+    userAvatar: 'https://example.com/avatar5.jpg',
+    username: 'HealthyEats',
+    timestamp: '2d ago',
+    title: 'Post-workout meal',
+    content: 'Made a delicious protein-packed smoothie bowl after my workout!',
+    image: 'https://example.com/smoothie.jpg',
+    likes: 40,
+    liked: false,
+    comments: [
+      { id: 'c9', author: 'Anna', text: 'That looks delicious!', time: '1d ago' },
+      { id: 'c10', author: 'Jake', text: 'Can you share the recipe?', time: '20h ago' }
+    ]
+  }
+];
+
+export { FEED_ITEMS };
