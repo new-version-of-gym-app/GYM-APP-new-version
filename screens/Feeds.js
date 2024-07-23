@@ -1,136 +1,82 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, SafeAreaView, RefreshControl } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity, SafeAreaView, RefreshControl, StyleSheet } from 'react-native';
 import { FEED_ITEMS } from '../data/dummy-data';
 import { Ionicons } from '@expo/vector-icons';
 import CommentSection from './CommentSection';
 import CommentItem from './CommentItem';  
 import CreatePostModal from './CreatePostModal';
-
-const FeedItem = ({ item, toggleLike, addComment, deleteComment }) => {
-  const [showAllComments, setShowAllComments] = useState(false);
-
-  const toggleComments = () => setShowAllComments(!showAllComments);
-
-  return (
-    <View style={styles.feedItem}>
-      <View style={styles.header}>
-        <Image source={{ uri: item.userAvatar }} style={styles.avatar} />
-        <View style={styles.headerText}>
-          <Text style={styles.username}>{item.username}</Text>
-          <Text style={styles.timestamp}>{item.timestamp}</Text>
-        </View>
-      </View>
-      <Text style={styles.feedTitle}>{item.title}</Text>
-      <Text style={styles.feedContent}>{item.content}</Text>
-      {item.image && (
-        <Image 
-          source={{ uri: item.image }} 
-          style={styles.feedImage} 
-          resizeMode="cover"
-        />
-      )}
-      <View style={styles.actions}>
-        <TouchableOpacity onPress={() => toggleLike(item.id)} style={styles.actionButton}>
-          <Ionicons 
-            name={item.liked ? 'heart' : 'heart-outline'} 
-            size={24} 
-            color={item.liked ? '#FF883B' : '#888'} 
-          />
-          <Text style={[styles.actionCount, item.liked && styles.likedText]}>{item.likes}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={toggleComments} style={styles.actionButton}>
-          <Ionicons name="chatbubble-outline" size={24} color="#888" />
-          <Text style={styles.actionCount}>{item.comments.length}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton}>
-          <Ionicons name="share-social-outline" size={24} color="#888" />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.commentsSection}>
-        {item.comments.slice(0, 2).map(comment => (
-          <CommentItem
-            key={comment.id}
-            comment={comment}
-            onDelete={(commentId) => deleteComment(item.id, commentId)}
-            isUserComment={comment.author === 'You'}  // Adjust this condition based on how you identify the current user
-          />
-        ))}
-        
-        {item.comments.length > 2 && (
-          <TouchableOpacity onPress={toggleComments}>
-            <Text style={styles.viewMoreComments}>
-              {showAllComments ? 'Hide comments' : `View all ${item.comments.length} comments`}
-            </Text>
-          </TouchableOpacity>
-        )}
-        
-        {showAllComments && item.comments.slice(2).map(comment => (
-          <CommentItem
-            key={comment.id}
-            comment={comment}
-            onDelete={(commentId) => deleteComment(item.id, commentId)}
-            isUserComment={comment.author === 'You'}  
-            // Adjust this condition based on how you identify the current user
-          />
-        ))}
-      </View>
-      <CommentSection 
-        comments={item.comments} 
-        onAddComment={(comment) => addComment(item.id, comment)} 
-      />
-    </View>
-  );
-};
+import UpdatePostModal from './UpdatePostModal';
+import ConfirmationModal from './ConfirmationModal';
+import { Alert } from 'react-native';
 
 const Feed = () => {
-  const [feedData, setFeedData] = useState(FEED_ITEMS);
+  const [feedItems, setFeedItems] = useState(FEED_ITEMS);
   const [refreshing, setRefreshing] = useState(false);
   const [isCreatePostModalVisible, setIsCreatePostModalVisible] = useState(false);
+  const currentUser = "You";
 
   const toggleLike = useCallback((id) => {
-    setFeedData(prevData => 
-      prevData.map(item => 
-        item.id === id
-          ? { ...item, liked: !item.liked, likes: item.liked ? item.likes - 1 : item.likes + 1 }
-          : item
-      )
-    );
+    setFeedItems(prevItems => prevItems.map(item => {
+      if (item.id === id) {
+        const liked = !item.liked;
+        return {
+          ...item,
+          liked,
+          likes: item.likes + (liked ? 1 : -1)
+        };
+      }
+      return item;
+    }));
   }, []);
 
   const addComment = useCallback((id, comment) => {
-    setFeedData(prevData =>
-      prevData.map(item =>
-        item.id === id
-          ? {
-              ...item,
-              comments: [
-                ...item.comments,
-                { id: Date.now().toString(), author: 'You', text: comment, time: 'Just now' }
-              ]
+    setFeedItems(prevItems => prevItems.map(item => {
+      if (item.id === id) {
+        return {
+          ...item,
+          comments: [
+            ...item.comments,
+            {
+              id: Date.now().toString(),
+              author: 'You',
+              text: comment,
+              time: 'Just now'
             }
-          : item
-      )
-    );
+          ]
+        };
+      }
+      return item;
+    }));
   }, []);
 
   const deleteComment = useCallback((postId, commentId) => {
-    setFeedData(prevData =>
-      prevData.map(item =>
-        item.id === postId
-          ? { ...item, comments: item.comments.filter(comment => comment.id !== commentId) }
-          : item
-      )
-    );
+    setFeedItems(prevItems => prevItems.map(item => {
+      if (item.id === postId) {
+        return {
+          ...item,
+          comments: item.comments.filter(comment => comment.id !== commentId)
+        };
+      }
+      return item;
+    }));
   }, []);
 
-  const renderFeedItem = useCallback(({ item }) => (
-    <FeedItem item={item} toggleLike={toggleLike} addComment={addComment} deleteComment={deleteComment} />
-  ), [toggleLike, addComment, deleteComment]);
+  const deletePost = useCallback((postId) => {
+    setFeedItems(prevItems => prevItems.filter(item => item.id !== postId));
+  }, []);
+
+  const updatePost = useCallback((postId, updatedData) => {
+    setFeedItems(prevItems => prevItems.map(item => {
+      if (item.id === postId) {
+        return { ...item, ...updatedData };
+      }
+      return item;
+    }));
+  }, []);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
-      setFeedData(FEED_ITEMS);
       setRefreshing(false);
     }, 2000);
   }, []);
@@ -138,20 +84,33 @@ const Feed = () => {
   const handleCreatePost = useCallback((postData) => {
     const newPost = {
       id: Date.now().toString(),
-      username: 'You', // Replace with actual username
-      userAvatar: 'https://example.com/your-avatar.jpg', // Replace with actual avatar URL
+      username: currentUser,
+      userAvatar: 'https://example.com/your-avatar.jpg',
       timestamp: 'Just now',
-      title: '', // You may want to add a title field to CreatePostModal if needed
+      title: '',
       content: postData.text,
-      image: postData.hasImage ? 'https://example.com/placeholder-image.jpg' : null, // Replace with actual image handling
+      image: postData.hasImage ? 'https://example.com/placeholder-image.jpg' : null,
       likes: 0,
       liked: false,
       comments: []
     };
 
-    setFeedData(prevData => [newPost, ...prevData]);
+    setFeedItems(prevItems => [newPost, ...prevItems]);
     setIsCreatePostModalVisible(false);
-  }, []);
+  }, [currentUser]);
+
+  const renderFeedItem = useCallback(({ item }) => (
+    <FeedItem 
+      item={item} 
+      toggleLike={toggleLike} 
+      addComment={addComment} 
+      deleteComment={deleteComment}
+      deletePost={deletePost}
+      updatePost={updatePost}
+      isUserPost={item.username === currentUser}
+      currentUser={currentUser}
+    />
+  ), [toggleLike, addComment, deleteComment, deletePost, updatePost, currentUser]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -164,7 +123,7 @@ const Feed = () => {
       </TouchableOpacity>
 
       <FlatList
-        data={feedData}
+        data={feedItems}
         keyExtractor={(item) => item.id}
         renderItem={renderFeedItem}
         contentContainerStyle={styles.flatListContent}
@@ -187,6 +146,120 @@ const Feed = () => {
     </SafeAreaView>
   );
 };
+
+const FeedItem = ({ item, toggleLike, addComment, deleteComment, deletePost, updatePost, isUserPost, currentUser }) => {
+  const [showAllComments, setShowAllComments] = useState(false);
+  const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  
+  const toggleComments = () => setShowAllComments(!showAllComments);
+
+  const handleUpdatePost = (updatedContent) => {
+    updatePost(item.id, { content: updatedContent });
+    setIsUpdateModalVisible(false);
+  };
+
+  const handleDeletePost = () => {
+    setIsDeleteModalVisible(true);
+  };
+
+  const confirmDeletePost = () => {
+    deletePost(item.id);
+    setIsDeleteModalVisible(false);
+  };
+
+  const handleShare = () => {
+    Alert.alert(
+      "Coming Soon!",
+      "The share feature will be available in a future update.",
+      [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+    );
+  };
+
+  const renderComments = () => {
+    const visibleComments = showAllComments ? item.comments : item.comments.slice(0, 2);
+    return (
+      <View style={styles.commentsSection}>
+        {visibleComments.map((comment) => (
+          <CommentItem
+            key={comment.id}
+            comment={comment}
+            onDelete={() => deleteComment(item.id, comment.id)}
+            isUserComment={comment.author === currentUser}
+          />
+        ))}
+        {item.comments.length > 2 && !showAllComments && (
+          <TouchableOpacity onPress={toggleComments}>
+            <Text style={styles.viewMoreComments}>View all {item.comments.length} comments</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    );
+  };
+
+  return (
+    <View style={styles.feedItem}>
+      <View style={styles.header}>
+        <Image source={{ uri: item.userAvatar }} style={styles.avatar} />
+        <View style={styles.headerText}>
+          <Text style={styles.username}>{item.username}</Text>
+          <Text style={styles.timestamp}>{item.timestamp}</Text>
+        </View>
+        {isUserPost && (
+          <>
+            <TouchableOpacity onPress={() => setIsUpdateModalVisible(true)} style={styles.editButton}>
+              <Ionicons name="pencil-outline" size={24} color="#FF883B" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleDeletePost} style={styles.deleteButton}>
+              <Ionicons name="trash-outline" size={24} color="#FF883B" />
+            </TouchableOpacity>
+          </>
+        )}
+      </View>
+      <Text style={styles.feedTitle}>{item.title}</Text>
+      <Text style={styles.feedContent}>{item.content}</Text>
+      {item.image && (
+        <Image source={{ uri: item.image }} style={styles.feedImage} resizeMode="cover" />
+      )}
+      <View style={styles.actions}>
+        <TouchableOpacity onPress={() => toggleLike(item.id)} style={styles.actionButton}>
+          <Ionicons 
+            name={item.liked ? 'heart' : 'heart-outline'} 
+            size={24} 
+            color={item.liked ? '#FF883B' : '#888'} 
+          />
+          <Text style={[styles.actionCount, item.liked && styles.likedText]}>{item.likes}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={toggleComments} style={styles.actionButton}>
+          <Ionicons name="chatbubble-outline" size={24} color="#888" />
+          <Text style={styles.actionCount}>{item.comments.length}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.actionButton} onPress={handleShare}>
+          <Ionicons name="share-social-outline" size={24} color="#888" />
+        </TouchableOpacity>
+      </View>
+      {renderComments()}
+      <CommentSection 
+        comments={item.comments} 
+        onAddComment={(comment) => addComment(item.id, comment)} 
+      />
+      <UpdatePostModal
+        isVisible={isUpdateModalVisible}
+        onClose={() => setIsUpdateModalVisible(false)}
+        onSubmit={handleUpdatePost}
+        initialContent={item.content}
+      />
+      <ConfirmationModal
+        isVisible={isDeleteModalVisible}
+        onClose={() => setIsDeleteModalVisible(false)}
+        onConfirm={confirmDeletePost}
+        message="Are you sure you want to delete this post?"
+      />
+    </View>
+  );
+};
+
+
 
 const styles = StyleSheet.create({
   container: {

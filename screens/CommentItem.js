@@ -23,20 +23,27 @@ const styles = StyleSheet.create({
   commentItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
+    alignItems: 'flex-start',
+    marginBottom: 16,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
   },
   commentContent: {
     flex: 1,
+    marginRight: 10,
   },
   commentAuthor: {
     fontWeight: 'bold',
     color: '#FF883B',
     fontSize: 14,
+    marginBottom: 4,
   },
   commentText: {
-    color: '#DDD',
+    color: '#FFFFFF',
     fontSize: 14,
+    lineHeight: 20,
+    marginBottom: 4,
   },
   commentTime: {
     color: '#888',
@@ -44,6 +51,7 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     padding: 8,
+    marginTop: -8,
   },
 });
 

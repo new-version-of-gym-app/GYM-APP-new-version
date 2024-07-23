@@ -183,7 +183,7 @@ const programs = [
 
 export default programs;
 
-const FEED_ITEMS = [
+let FEED_ITEMS = [
   {
     id: '1',
     userAvatar: 'https://example.com/avatar1.jpg',
