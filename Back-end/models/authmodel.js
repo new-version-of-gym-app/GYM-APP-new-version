@@ -42,6 +42,8 @@ exports.registermodel = async (
   }
 };
 
+
+
 const privatekey = "this my private key hahahahahahahaha";
 
 
@@ -75,7 +77,7 @@ exports.loginmodel = (email, password) => {
                     role: result[0].role,
                     username: result[0].username,
                     lastname: result[0].lastname,
-                    id: result[0].id,
+                    id: result[0].user_id,
                   },
                   privatekey,
 
@@ -88,6 +90,7 @@ exports.loginmodel = (email, password) => {
                   username: result[0].username,
                   role: result[0].role,
                   token: token,
+                  id : result [0].user_id
                 });
               } else {
                 reject({
