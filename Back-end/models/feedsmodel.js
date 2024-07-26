@@ -21,7 +21,7 @@ exports.createfeedmodel = (feed_txt, user_id) => {
 exports.getffedmodel = () => {
   return new Promise((resolve, reject) => {
     const qr =
-      "select feed_txt , username , photo from feeds  join users   on feeds.user_id = users.id";
+      "select feed_txt , username , photo , feeds_id from feeds  join users   on feeds.user_id = users.user_id";
     db.query(qr, (err, result) => {
       if (err) {
         reject(err);

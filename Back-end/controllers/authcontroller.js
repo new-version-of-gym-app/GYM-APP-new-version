@@ -25,9 +25,7 @@ exports.logincontroller =  (req,res)=>{
   const email = req.body.email
   const password = req.body.password
  authmodel.loginmodel(email,password).then((result)=>{
-  res.send({
-    token:result
-  })
+  res.send(result)
  }).catch((err)=>{
   res.send(err)
  })
