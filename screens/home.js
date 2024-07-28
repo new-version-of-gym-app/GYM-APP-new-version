@@ -18,6 +18,7 @@ import Coachs from "./Coachs";
 import Following from "./following";
 import Profile from "./Profile";
 import Area from "./area";
+import CalendarComponent from "./Calendar";
 import { Feather } from '@expo/vector-icons';
 const Drawer = createDrawerNavigator();
 const Tabs = createBottomTabNavigator();
@@ -163,6 +164,17 @@ const Home = () => {
             },
           }}
         />
+         {/* <Drawer.Screen
+      name="Calendar"
+      component={CalendarComponent}
+      options={{
+        drawerIcon: ({ size, color }) => {
+          return (
+            <Feather name="calendar" size={size} color={color} />
+          );
+        },
+      }}
+      /> */}
         <Drawer.Screen
           name="Following"
           component={Following}
@@ -189,22 +201,6 @@ const Home = () => {
                 <Feather name="map-pin" size={size} color={color} />
               );
             },
-          }}
-        />
-
-
-        <Drawer.Screen
-          name="Logout"
-          component={Logout}
-          options={{
-            drawerIcon: ({ size, color }) => (
-              <AntDesign name="logout" size={size} color={color} />
-            ),
-            drawerLabel: ({ color }) => (
-              <Pressable onPress={() => FIREBASE_AUTH.signOut()}>
-                <Text style={{ color }}>Logout</Text>
-              </Pressable>
-            ),
           }}
         />
       </Drawer.Navigator>

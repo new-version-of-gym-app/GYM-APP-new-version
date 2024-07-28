@@ -169,7 +169,7 @@ export const NOTIFICATIONS = [
 
 // des programmes de sport 
 const programs = [
-  { id: '1', name: 'Morning Yoga', duration: '30 min', description: 'A yoga program to start your day off right.', intensity: 'Low' },
+  { id: '1', name: 'Yoga', duration: '30 min', description: 'A yoga program to start your day off right.', intensity: 'Low' },
   { id: '2', name: 'Running', duration: '45 min', description: 'A running session to improve your endurance.', intensity: 'Medium' },
   { id: '3', name: 'Strength Training', duration: '60 min', description: 'A strength training program to build your muscles.', intensity: 'High' },
   { id: '4', name: 'HIIT', duration: '20 min', description: 'A high-intensity interval training to burn calories quickly.', intensity: 'Very High' },
