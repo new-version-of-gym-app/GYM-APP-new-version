@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 const coachs = [
     {
         id: '1',
-        firstName: 'John',
+        firstName: 'Johnn',
         lastName: 'ddd',
         specialty: 'Yoga',
         photo: ''
