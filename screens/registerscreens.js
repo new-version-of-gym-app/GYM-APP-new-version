@@ -16,7 +16,6 @@ const Registerscreen = () => {
   const signUp = async ()=>{
     try {
       const res =await createUserWithEmailAndPassword(auth,email,password);
-      alert('User Created !')
     } catch (error) {
       alert(error)      
     }
