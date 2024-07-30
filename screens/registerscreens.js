@@ -4,6 +4,7 @@ import BtnRegister from '../componets/Auth-buttons/btnregister';
 import {FIREBASE_AUTH}from '../FirebaseConfig'
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
+import axios from 'axios'
 
 const Registerscreen = () => {
 
@@ -13,13 +14,26 @@ const Registerscreen = () => {
   const [lastname,setlastname]=useState('')
   const auth = FIREBASE_AUTH;
 
-  const signUp = async ()=>{
+  const signUp = async () => {
     try {
-      const res =await createUserWithEmailAndPassword(auth,email,password);
+      //create the user in Firebase
+      await createUserWithEmailAndPassword(auth, email, password);
+      // register the user in db //! ip adress required instead of localhost 
+      await axios.post('http:192.168.58.73:5000/register', {
+        email: email,
+        password: password,
+        username: name,
+        lastname: lastname,
+        photo: 'photo_url', 
+        role: 'user' // Default role
+      });
+  
     } catch (error) {
-      alert(error)      
+      console.error(error);
+      alert('An error occurred during registration.');
     }
-   }
+  };
+  
 
     return (
         <View style={styles.container}>
