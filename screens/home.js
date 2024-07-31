@@ -20,10 +20,11 @@ import Profile from "./Profile";
 import Area from "./area";
 import CalendarComponent from "./Calendar";
 import { Feather } from '@expo/vector-icons';
+
 const Drawer = createDrawerNavigator();
 const Tabs = createBottomTabNavigator();
 
-const Logout = () => null;
+
 
 const Tabnavigator = () => {
   return (
@@ -120,6 +121,7 @@ const Tabnavigator = () => {
 };
 
 const Home = () => {
+
   return (
     <>
       <Drawer.Navigator
@@ -150,6 +152,8 @@ const Home = () => {
             drawerIcon: ({ color, size }) => {
               return <AntDesign name="user" size={size} color={color} />;
             },
+            
+            
           }}
         />
 
