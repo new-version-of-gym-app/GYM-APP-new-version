@@ -1,5 +1,5 @@
 const feedmodel = require("../models/feedsmodel.js");
-
+//feeds
 exports.createfeedcontroller = (req, res) => {
   const feed_text = req.body.feed_text;
   const user_id = req.params.user_id;
