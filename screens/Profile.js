@@ -8,6 +8,7 @@ const profilePic = require("../assets/images/tempPic.jpg");
 const editPic = require("../assets/images/edit.png");
 const privacyPic = require('../assets/images/privacy.png');
 const logPic = require('../assets/images/logout.png');
+import {useNavigation} from '@react-navigation/native'
 
 const Profile = () => {
     const [isModalVisible, setModalVisible] = useState(false);
@@ -16,6 +17,7 @@ const Profile = () => {
     const [tempName, setTempName] = useState(name);
     const [tempPhone, setTempPhone] = useState(phone);
     const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+    const navigation = useNavigation()
 
     useEffect(() => {
         setIsSaveDisabled(name === tempName && phone === tempPhone);
@@ -48,7 +50,9 @@ const Profile = () => {
                 },
                 {
                     text: "Yes",
-                    onPress: () => FIREBASE_AUTH.signOut(),
+                    onPress: () => {FIREBASE_AUTH.signOut()
+                      navigation.navigate("login")
+                    } 
                 }
             ],
             { cancelable: false }

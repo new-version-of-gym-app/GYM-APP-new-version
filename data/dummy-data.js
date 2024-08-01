@@ -86,14 +86,14 @@ export const DESCRIPTION = [
   new Information(
     "m3",
     "c3",
-    "What is the best fitness program for beginners?",
+    "What is the best fitness program for beginner ?",
     "https://www.wikihow.com/images/thumb/a/ac/Do-Kegel-Exercises-for-Men-Step-9.jpg/v4-460px-Do-Kegel-Exercises-for-Men-Step-9.jpg",
     [
       "Set Realistic Goals",
       "Choose Enjoyable Activities",
       "Start Slowly",
       "Incorporate Strength Training and Cardio",
-      "Warm-up (5-10 minutes)",
+      "Warm-up (5-15 minutes)",
       "Strength Training (2-3 times per week)",
       "Cardiovascular Exercise (3-4 times per week)",
       "Flexibility and Mobility (2-3 times per week)",
