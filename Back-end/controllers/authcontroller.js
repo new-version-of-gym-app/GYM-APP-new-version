@@ -7,7 +7,8 @@ exports.registercontroller = (req,res)=>{
     const lastname = req.body.lastname
    const  photo = req.body.photo
    const  role = req.body.role
-  authmodel.registermodel(email,password,username,lastname,photo,role).then((user)=>{
+   const phone = req.body.phone
+  authmodel.registermodel(email,password,username,lastname,photo,role,phone).then((user)=>{
 res.send({
     status:user.status , 
     message:user.message,

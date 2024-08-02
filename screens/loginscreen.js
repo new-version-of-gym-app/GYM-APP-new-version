@@ -52,6 +52,10 @@ const Loginscreen = ({ navigation }) => {
         shareinfo.addid(result.data.id)
         shareinfo.addrole(result.data.role)
         shareinfo.addusername(result.data.username)
+        shareinfo.addphoto(result.data.photo)
+        shareinfo.addemail(result.data.email)
+        shareinfo.addphone(result.data.phone)
+        
         navigation.navigate("home");
       } else {
         alert(`${result.data.msg}`);
