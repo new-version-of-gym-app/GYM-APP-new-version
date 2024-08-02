@@ -8,17 +8,18 @@ exports.registermodel = async (
   username,
   lastname,
   photo,
-  role
+  role,
+  phone
 ) => {
   try {
     const hashedpassword = await bcrypt.hash(password, 10);
     const qr =
-      "INSERT INTO users (email, password, username, lastname, photo, role) VALUES (?, ?, ?, ?, ?, ?)";
+      "INSERT INTO users (email, password, username, lastname, photo, role,phone) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     return new Promise((resolve, reject) => {
       db.query(
         qr,
-        [email, hashedpassword, username, lastname, photo, role],
+        [email, hashedpassword, username, lastname, photo, role, phone],
         (err, result) => {
           if (err) {
             reject(err);
@@ -42,13 +43,7 @@ exports.registermodel = async (
   }
 };
 
-
-
 const privatekey = "this my private key hahahahahahahaha";
-
-
-
-
 
 exports.loginmodel = (email, password) => {
   return new Promise((resolve, reject) => {
@@ -57,7 +52,7 @@ exports.loginmodel = (email, password) => {
       if (err) {
         reject(err);
       }
-      if ((result.length === 0)) {
+      if (result.length === 0) {
         reject({
           msg: "incorrect email or password",
         });
@@ -90,7 +85,10 @@ exports.loginmodel = (email, password) => {
                   username: result[0].username,
                   role: result[0].role,
                   token: token,
-                  id : result [0].user_id
+                  id: result[0].user_id,
+                  photo: result[0].photo,
+                  email: result[0].email,
+                  phone: result[0].phone,
                 });
               } else {
                 reject({
