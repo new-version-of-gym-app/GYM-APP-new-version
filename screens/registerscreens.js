@@ -7,7 +7,9 @@ import {
   Pressable,
   Image,
   ActivityIndicator,
-  ScrollView
+  ScrollView,
+  Platform,
+  
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import BtnRegister from "../componets/Auth-buttons/btnregister";
@@ -18,7 +20,7 @@ import { useState } from "react";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import { ipadresse } from "../config";
-
+import RNPickerSelect from 'react-native-picker-select';
 const Registerscreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -85,7 +87,7 @@ const Registerscreen = ({ navigation }) => {
         lastname,
         role,
         photo,
-        phone
+        phone,
       });
       console.log("result", result.data);
       if (result.data.status == "success") {
@@ -134,7 +136,7 @@ const Registerscreen = ({ navigation }) => {
               placeholderTextColor="#fff"
               onChangeText={setPhone}
               keyboardType="phone-pad"
-              maxLength={15} 
+              maxLength={15}
             />
 
             <TextInput
@@ -173,21 +175,25 @@ const Registerscreen = ({ navigation }) => {
             ) : (
               <>
                 <View style={styles.pickerContainer}>
+                  <View  style={styles.pickerWrapper} >
                   <Picker
                     style={styles.picker}
                     itemStyle={styles.pickerItem}
                     onValueChange={(itemValue) => setRole(itemValue)}
                     selectedValue={role}
                   >
-                    <Picker.Item label="User" value="user" />
-                    <Picker.Item label="Coach" value="coach" />
+                    <Picker.Item style={{
+                    fontWeight : Platform.OS === 'android' ? "bold" : null,
+                    }} label="User" value="user" />
+                    <Picker.Item style={{
+                      fontWeight : Platform.OS === 'android' ? "bold" : null,
+                    }} label="Coach" value="coach" />
                   </Picker>
+                  </View>
+             
                 </View>
-           
-                <BtnRegister style={styles.regbtn} click={signUp} />
-            
 
-            
+                <BtnRegister style={styles.regbtn} click={signUp} />
               </>
             )}
           </View>
@@ -200,7 +206,6 @@ const Registerscreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  
   },
   gradient: {
     flex: 1,
@@ -218,16 +223,13 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     width: "80%",
-   
-    
-    
+
     alignItems: "center",
   },
   title: {
     fontSize: 24,
     color: "#fff",
     marginBottom: 20,
-
   },
   input: {
     width: "100%",
@@ -238,7 +240,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 15,
     color: "#fff",
-    height : "6%" 
+    height: "6%",
   },
   registerContainer: {
     flexDirection: "row",
@@ -251,23 +253,82 @@ const styles = StyleSheet.create({
     color: "#1E90FF",
     textDecorationLine: "underline",
   },
-  picker: {
-    width: "100%",
-    height: 10,
-    color: "#fff",
 
+
+
+
+
+  // picker: {
+  //   width: "100%",
+  //   height: 10,
+  //   color: "#fff",
+
+  //   marginBottom: 15,
+  //   marginTop: 1,
+  // },
+  // pickerItem: {
+  //   color: "#fff",
+  // },
+  // pickerContainer: {
+  //   width: "100%",
+  //   marginBottom: 100,
+  // },
+
+
+
+
+
+
+  pickerContainer: {
+    width: "100%",
+    marginBottom: 100,
+    justifyContent: 'center', // Centre verticalement dans le conteneur
+    alignItems: 'center', // Centre horizontalement dans le conteneur
+  },
+  pickerWrapper: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    marginBottom : Platform.OS === "ios" ? 30 : 0 ,
+   
+  },
+  picker: {
+    width: "80%", // Ajustez cette largeur si nécessaire
+    color: "#fff",
+    marginLeft: Platform.OS === 'android' ? 160 : 0, 
     marginBottom: 15,
-    marginTop: 1,
+    alignSelf : "center"
   },
   pickerItem: {
     color: "#fff",
+    textAlign: 'center', // Centrer le texte dans le Picker.Item sur Android
   },
-  pickerContainer: {
-    width: "100%",
-    marginBottom: 100, 
-   
-    
-  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   addphototitle: {
     fontSize: 20,
     textAlign: "center",
@@ -282,10 +343,13 @@ const styles = StyleSheet.create({
   textimage: {
     color: "white",
     marginTop: 20,
+    marginTop: Platform.OS === 'android' ? 50 : 0,
+     
+
   },
-  regbtn : {
-marginBottom : 200
-  }
+  regbtn: {
+    marginBottom: 200,
+  },
 });
 
 export default Registerscreen;

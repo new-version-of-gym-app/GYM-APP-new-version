@@ -87,13 +87,13 @@ const Profile = () => {
         <View style={styles.userInfo}>
           <View style={styles.row}>
             <Icon name="phone" color="#777777" size={20}></Icon>
-            <Text style={{ color: "#777777", marginLeft: 20 }}>
+            <Text style={{ color: "#777777", marginLeft: 5 }}>
               {Userinfo.phone}
             </Text>
           </View>
           <View style={styles.row}>
             <Icon name="email" color="#777777" size={20}></Icon>
-            <Text style={{ color: "#777777", marginLeft: 20 }}>
+            <Text style={{ color: "#777777", marginLeft: 5 }}>
               {Userinfo.email}
             </Text>
           </View>
@@ -273,6 +273,8 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     marginBottom: 10,
+    textAlign : "center",
+    justifyContent : "center"
   },
   modal: {
     justifyContent: "flex-end",
