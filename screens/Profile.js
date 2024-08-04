@@ -18,34 +18,40 @@ const privacyPic = require("../assets/images/privacy.png");
 const logPic = require("../assets/images/logout.png");
 import { useNavigation } from "@react-navigation/native";
 import { Userctx } from "../store/Usercontext";
+import { ipadresse } from "../config";
+import axios from 'axios';
 
 const Profile = () => {
   const Userinfo = useContext(Userctx);
   const [isModalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState(Userinfo.username);
-  const [phone, setPhone] = useState("+216-63504220");
-  const [tempName, setTempName] = useState(name);
-  const [tempPhone, setTempPhone] = useState(phone);
+  const [phone, setPhone] = useState(Userinfo.phone);
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
   const navigation = useNavigation();
 
   useEffect(() => {
-    setIsSaveDisabled(name === tempName && phone === tempPhone);
-  }, [tempName, tempPhone]);
+    setIsSaveDisabled(name === Userinfo.username && phone === Userinfo.phone);
+  }, [name, phone]);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
   const handleSave = () => {
-    setName(tempName);
-    setPhone(tempPhone);
-    toggleModal();
+    console.log('Saving:', { username: name, phone: phone });
+    axios.put(`http://${ipadresse}:5000/update/${Userinfo.id}`, { username: name, phone: phone })
+      .then(response => {
+        console.log('Response:', response.data);
+        toggleModal();
+      })
+      .catch(error => {
+        console.error('Error updating user data:', error);
+      });
   };
 
   const handleCancel = () => {
-    setTempName(name);
-    setTempPhone(phone);
+    setName(Userinfo.username);
+    setPhone(Userinfo.phone);
     toggleModal();
   };
 
@@ -88,7 +94,7 @@ const Profile = () => {
           <View style={styles.row}>
             <Icon name="phone" color="#777777" size={20}></Icon>
             <Text style={{ color: "#777777", marginLeft: 5 }}>
-              {Userinfo.phone}
+              {phone}
             </Text>
           </View>
           <View style={styles.row}>
@@ -157,15 +163,15 @@ const Profile = () => {
             style={styles.input}
             placeholder="Name"
             placeholderTextColor="#888"
-            value={tempName}
-            onChangeText={setTempName}
+            value={name}
+            onChangeText={setName}
           />
           <TextInput
             style={styles.input}
             placeholder="Phone"
             placeholderTextColor="#888"
-            value={tempPhone}
-            onChangeText={setTempPhone}
+            value={phone}
+            onChangeText={setPhone}
           />
           <View style={styles.modalButtonContainer}>
             <TouchableOpacity
@@ -191,6 +197,7 @@ const Profile = () => {
     </View>
   );
 };
+
 
 export default Profile;
 
