@@ -19,12 +19,13 @@ import Following from "./following";
 import Profile from "./Profile";
 import Area from "./area";
 import CalendarComponent from "./Calendar";
-import { Feather } from '@expo/vector-icons';
+import Addfeed from "./Addfeed";
+import { Feather } from "@expo/vector-icons";
+import { useContext } from "react";
+import { Userctx } from "../store/Usercontext";
 
 const Drawer = createDrawerNavigator();
 const Tabs = createBottomTabNavigator();
-
-
 
 const Tabnavigator = () => {
   return (
@@ -121,6 +122,7 @@ const Tabnavigator = () => {
 };
 
 const Home = () => {
+  const Userinfo = useContext(Userctx);
 
   return (
     <>
@@ -152,8 +154,6 @@ const Home = () => {
             drawerIcon: ({ color, size }) => {
               return <AntDesign name="user" size={size} color={color} />;
             },
-            
-            
           }}
         />
 
@@ -168,7 +168,7 @@ const Home = () => {
             },
           }}
         />
-         {/* <Drawer.Screen
+        {/* <Drawer.Screen
       name="Calendar"
       component={CalendarComponent}
       options={{
@@ -195,18 +195,26 @@ const Home = () => {
           }}
         />
 
-
-<Drawer.Screen
+        <Drawer.Screen
           name="YOUR AREA"
           component={Area}
           options={{
             drawerIcon: ({ size, color }) => {
-              return (
-                <Feather name="map-pin" size={size} color={color} />
-              );
+              return <Feather name="map-pin" size={size} color={color} />;
             },
           }}
         />
+        {Userinfo.role == "coach" ? (
+          <Drawer.Screen
+            name="ADD FEED"
+            component={Addfeed}
+            options={{
+              drawerIcon: ({ size, color }) => {
+                return <AntDesign name="addfile" size={size} color={color} />;
+              },
+            }}
+          />
+        ) : null}
       </Drawer.Navigator>
     </>
   );
