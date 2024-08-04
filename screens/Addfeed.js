@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -11,14 +11,43 @@ import {
 } from "react-native";
 import Btn from "../componets/Add-feed-btn/btn";
 import { LinearGradient } from "expo-linear-gradient";
-const Addfeed = () => {
-  const [text, setText] = useState("");
+import axios from "axios";
+import { ipadresse } from "../config";
+import { Userctx } from "../store/Usercontext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-  const handleEndEditing = () => {
-    Keyboard.dismiss(); // Ferme le clavier
+
+const Addfeed = ({ navigation }) => {
+  const [text, setText] = useState("");
+  const Userinfo = useContext(Userctx);
+
+  const addfd = async () => {
+    try {
+      console.log("add feed is working");
+      const userid = await Userinfo.id;
+      const token = await AsyncStorage.getItem("token");
+
+      const result = await axios.post(
+        `http://${ipadresse}:5000/add/${userid}`,
+        { text },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+         setText("")
+      if (result.data == "new feed is added") {
+        navigation.navigate("Feed",{newfeed:result.data});
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  // const handleEndEditing = () => {
+  //   Keyboard.dismiss(); // Ferme le clavier
+  // };
   return (
-    <Pressable onPress={handleEndEditing} style={styles.presss}>
+    <Pressable  style={styles.presss}>
       <LinearGradient style={styles.gradient} colors={["#000000", "#CCCCCC"]}>
         <ImageBackground
           source={require("../assets/images/feed.jpg")}
@@ -32,14 +61,14 @@ const Addfeed = () => {
               multiline
               numberOfLines={4}
               value={text}
-              onChangeText={setText}
+              onChangeText={(txt) => setText(txt)}
               placeholder="Enter your text here..."
               placeholderTextColor="white"
               returnKeyType="done"
             />
           </View>
           <View style={styles.add}>
-            <Btn />
+            <Btn onpress={addfd} />
           </View>
         </ImageBackground>
       </LinearGradient>

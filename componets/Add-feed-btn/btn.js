@@ -8,13 +8,11 @@ import {
 
 const Btn = ({ onpress }) => {
   return (
-    <View style={Styles.container}>
-      <Pressable onPress={onpress}>
-        <TouchableOpacity>
-          <Text style={Styles.buttonText}>Add Fedd</Text>
-        </TouchableOpacity>
-      </Pressable>
-    </View>
+    <Pressable onPress={onpress}>
+      <View style={Styles.container}>
+        <Text style={Styles.buttonText}>Add Fedd</Text>
+      </View>
+    </Pressable>
   );
 };
 
@@ -27,7 +25,7 @@ const Styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 5,
     alignItems: "center",
-    marginHorizontal: 120,
+    alignSelf :"center" ,
     marginTop: 10,
     marginBottom: 20,
   },

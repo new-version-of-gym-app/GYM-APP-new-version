@@ -2,7 +2,7 @@ const feedmodel = require("../models/feedsmodel.js");
 const jwt = require("jsonwebtoken");
 //feeds
 exports.createfeedcontroller = (req, res) => {
-  const feed_text = req.body.feed_text;
+  const feed_text = req.body.text;
   const user_id = req.params.user_id;
 
   feedmodel
@@ -28,23 +28,30 @@ exports.getfeedscontroller = (req, res) => {
     });
 };
 
+
+
 const privatekey = "this my private key hahahahahahahaha";
 
 exports.verifytoken = async (req, res, next) => {
-  const token = req.headers?.token;
+  const token = req.headers?.authorization; // Access header directly as a string
   if (!token) {
-    return res.json("no token generated !!").status(404);
+    console.log("no token generated");
+    return res.status(404).json("no token generated !!");
   }
-  token = token.slice(7, token.length).trim();
+
+  const cleanedToken = token.startsWith('Bearer ') ? token.slice(7).trim() : token;
 
   try {
-    const verifytoken = await jwt.verify(token, privatekey);
+    const verifytoken = await jwt.verify(cleanedToken, privatekey);
     if (verifytoken.role === "coach") {
+      console.log("token verified and role is coach");
       return next();
     } else {
-      res.send("access only for coach").status(400);
+      return res.status(400).send("access only for coach");
     }
   } catch (err) {
-    res.json("token is invalid !!").status(404);
+    console.error("Token verification failed:", err);
+    return res.status(404).json("token is invalid !!");
   }
 };
+

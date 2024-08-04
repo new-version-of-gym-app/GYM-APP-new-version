@@ -7,23 +7,40 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { ipadresse } from "../config";
+import React from "react"; 
 
 import { useEffect, useState, useLayoutEffect } from "react";
 import axios from "axios";
 import { LinearGradient } from "expo-linear-gradient";
+import { useFocusEffect } from "@react-navigation/native";
 
-const Feeds = () => {
+const Feeds = ({ route }) => {
   const [data, setdata] = useState([]);
 
   const fetchfeeds = async () => {
     const result = await axios.get(`http:${ipadresse}:5000/get`);
-    console.log(result.data);
     setdata(result.data);
   };
 
-  useLayoutEffect(() => {
-    fetchfeeds();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchfeeds();
+      if (route.params?.newfeed) {
+        setdata((data) => [route.params.newfeed, ...data]);
+      }
+    }, [route.params?.newfeed])
+  );
+
+  // useLayoutEffect(() => {
+  //   fetchfeeds();
+  // }, []);
+
+  // useLayoutEffect(() => {
+  //   if (route.params?.newfeed) {
+  //     console.log("layout work");
+  //     fetchfeeds();
+  //   }
+  // }, [route.params?.newfeed]);
 
   const PostCard = (itemlist) => (
     <View style={styles.postCard}>
@@ -39,28 +56,23 @@ const Feeds = () => {
 
       <View style={styles.postFooter}>
         <TouchableOpacity style={styles.postButton}>
-          <Text style={styles.postButtonText}>Like</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.postButton}>
           <Text style={styles.postButtonText}>Comment</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.postButtonText}>Share</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 
   return (
-    <View style={styles.container}>
-      <LinearGradient colors={["#FFDEE9", "#B5FFFC"]}>
-        <FlatList
-          data={data}
-          renderItem={PostCard}
-          keyExtractor={(item) => item.feeds_id.toString()}
-        />
-      </LinearGradient>
-    </View>
+
+    <LinearGradient style={styles.gradient} colors={["#FFDEE9", "#B5FFFC"]}>
+      <FlatList
+        data={data}
+        renderItem={PostCard}
+        keyExtractor={(item) => item.feeds_id}
+      />
+    </LinearGradient>
+
+
   );
 };
 
@@ -71,25 +83,28 @@ const styles = StyleSheet.create({
   imgcontainer: {
     flex: 1,
   },
+  gradient: {
+    flex: 1,
+  
+  },
   img: {
     opacity: 0.4,
   },
 
   //////////////////////////////
-  container: {
-    paddingTop: 10,
-  },
+
   background: {
     flex: 1,
     // other styling properties
   },
 
   postCard: {
-    marginBottom: 30,
-    padding: 10,
+    marginBottom: 10,
+    padding: 15,
     backgroundColor: "#fff",
     borderRadius: 8,
     marginHorizontal: 13,
+    marginTop : 20
   },
   postHeader: {
     flexDirection: "row",
@@ -120,7 +135,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   postButton: {
-    marginRight: 10,
+    marginHorizontal: 123,
   },
   postButtonText: {
     color: "#808080",

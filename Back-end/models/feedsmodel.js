@@ -10,7 +10,7 @@ exports.createfeedmodel = (feed_txt, user_id) => {
         reject(err);
       }
       if (result) {
-        resolve("new feed is added !!! ");
+        resolve("new feed is added");
       }
     });
   });
