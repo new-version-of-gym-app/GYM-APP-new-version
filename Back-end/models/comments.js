@@ -17,7 +17,7 @@ exports.createcomment = (cmt_txt, user_id, feed_id) => {
 exports.getcommentinformation = (feeds_id) => {
   return new Promise((resolve, reject) => {
     const qr =
-      "select  username ,cmt_txt  from feeds join users on users.user_id = feeds.user_id join comments on comments.user_id = users.user_id where feed_id = ? ";
+      " select  username ,cmt_txt , feeds_id , photo from users join comments on users.user_id = comments.user_id  join feeds on feeds.feeds_id = comments.feed_id where feeds.feeds_id = ? ";
 
       db.query(qr,[feeds_id],(err,result)=>{
           if (err){

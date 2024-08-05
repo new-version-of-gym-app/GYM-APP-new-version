@@ -4,6 +4,7 @@ const authrouter = require('./routes/authroutes.js');
 const FeedsRouter = require('./routes/feedroutes.js');
 const commentrouter = require('./routes/commentsroutes.js');
 const userRoutes = require ('./routes/userRoutes.js')
+const coachroute = require('./routes/coachroutes.js')
 const app = express();
 
 // CORS setup
@@ -19,6 +20,7 @@ app.use('/', userRoutes);
 app.use('/', authrouter);
 app.use('/', FeedsRouter);
 app.use('/', commentrouter);
+app.use('/',coachroute)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

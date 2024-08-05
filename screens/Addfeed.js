@@ -8,6 +8,7 @@ import {
   Button,
   Keyboard,
   Pressable,
+
 } from "react-native";
 import Btn from "../componets/Add-feed-btn/btn";
 import { LinearGradient } from "expo-linear-gradient";
@@ -15,6 +16,7 @@ import axios from "axios";
 import { ipadresse } from "../config";
 import { Userctx } from "../store/Usercontext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import React from "react";
 
 
 const Addfeed = ({ navigation }) => {
