@@ -91,32 +91,13 @@ const Tabnavigator = () => {
             );
           },
           tabBarLabel: ({ focused }) => (
-            <Text style={{ color: focused ? "white" : "blue" }}>Programs</Text>
+            <Text style={{ color: focused ? "white" : "blue" }}>Advices</Text>
           ),
+         
         }}
       />
 
-      <Tabs.Screen
-        name="Notifications"
-        component={Notifications}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused, size }) => {
-            return (
-              <MaterialIcons
-                name="notifications-none"
-                size={size}
-                color={focused ? "white" : "blue"}
-              />
-            );
-          },
-          tabBarLabel: ({ focused }) => (
-            <Text style={{ color: focused ? "white" : "blue" }}>
-              Notifications
-            </Text>
-          ),
-        }}
-      />
+
     </Tabs.Navigator>
   );
 };
