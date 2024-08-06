@@ -11,6 +11,8 @@ import { FIREBASE_AUTH } from "./FirebaseConfig";
 import Home from "./screens/home";
 import Details from "./screens/Details";
 import Userprovider from "./store/Usercontext";
+import Comments from "./screens/comments";
+import Fontisto from '@expo/vector-icons/Fontisto';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +59,15 @@ export default function App() {
             name="register"
             component={Registerscreen}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+          name="Comments"
+          component={Comments}
+          options={{
+            presentation : "modal" ,
+        
+          }}
+          
           />
         </Stack.Navigator>
       </NavigationContainer>

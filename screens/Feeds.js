@@ -5,16 +5,17 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { ipadresse } from "../config";
-import React from "react"; 
+import React from "react";
 
 import { useEffect, useState, useLayoutEffect } from "react";
 import axios from "axios";
 import { LinearGradient } from "expo-linear-gradient";
 import { useFocusEffect } from "@react-navigation/native";
 
-const Feeds = ({ route }) => {
+const Feeds = ({ route, navigation }) => {
   const [data, setdata] = useState([]);
 
   const fetchfeeds = async () => {
@@ -31,16 +32,9 @@ const Feeds = ({ route }) => {
     }, [route.params?.newfeed])
   );
 
-  // useLayoutEffect(() => {
-  //   fetchfeeds();
-  // }, []);
 
-  // useLayoutEffect(() => {
-  //   if (route.params?.newfeed) {
-  //     console.log("layout work");
-  //     fetchfeeds();
-  //   }
-  // }, [route.params?.newfeed]);
+
+
 
   const PostCard = (itemlist) => (
     <View style={styles.postCard}>
@@ -55,15 +49,16 @@ const Feeds = ({ route }) => {
       <Text style={styles.postDescription}>{itemlist.item.feed_txt}</Text>
 
       <View style={styles.postFooter}>
-        <TouchableOpacity style={styles.postButton}>
-          <Text style={styles.postButtonText}>Comment</Text>
-        </TouchableOpacity>
+        <Pressable  onPress={()=>navigation.navigate("Comments",{feed_id :itemlist.item.feeds_id })}>
+          <View style={styles.postButton}>
+            <Text style={styles.postButtonText}>Comment</Text>
+          </View>
+        </Pressable>
       </View>
     </View>
   );
 
   return (
-
     <LinearGradient style={styles.gradient} colors={["#FFDEE9", "#B5FFFC"]}>
       <FlatList
         data={data}
@@ -71,8 +66,6 @@ const Feeds = ({ route }) => {
         keyExtractor={(item) => item.feeds_id}
       />
     </LinearGradient>
-
-
   );
 };
 
@@ -85,7 +78,6 @@ const styles = StyleSheet.create({
   },
   gradient: {
     flex: 1,
-  
   },
   img: {
     opacity: 0.4,
@@ -104,7 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 8,
     marginHorizontal: 13,
-    marginTop : 20
+    marginTop: 20,
   },
   postHeader: {
     flexDirection: "row",
