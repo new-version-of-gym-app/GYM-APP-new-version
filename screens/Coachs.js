@@ -1,55 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-// data 
-const coachs = [
-    {
-        id: '1',
-        firstName: 'John',
-        lastName: 'ddd',
-        specialty: 'Yoga',
-        photo: ''
-    },
-];
-
-const getIconName = (specialty) => {
-    switch (specialty.toLowerCase()) {
-        case 'yoga':
-            return 'self-improvement';
-        case 'running':
-            return 'directions-run';
-        case 'strength training':
-            return 'fitness-center';
-        case 'hiit':
-            return 'whatshot';
-        case 'pilates':
-            return 'self-improvement';
-        case 'cycling':
-            return 'directions-bike';
-        case 'boxing':
-            return 'sports-mma';
-        case 'cardio dance':
-            return 'sports-kabaddi';
-        case 'stretching':
-            return 'self-improvement';
-        case 'crossfit':
-            return 'fitness-center';
-        default:
-            return 'sports';
-    }
-};
-
 const Coachs = () => {
+    const [coachs, setCoachs] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:5000/coachs')
+            .then(response => response.json())
+            .then(data => setCoachs(data))
+            .catch(error => console.error('Error', error));
+    }, []);
+
     const renderItem = ({ item }) => (
         <View style={styles.coachContainer}>
-            <Image source={{ uri: item.photo }} style={styles.coachPhoto} />
+            <Image source={item.photo} style={styles.coachPhoto} />
             <View style={styles.coachInfo}>
-                <Text style={styles.coachName}>{`${item.firstName} ${item.lastName}`}</Text>
-                <View style={styles.specialtyContainer}>
-                    <MaterialIcons name={getIconName(item.specialty)} size={24} color="yellow" />
-                    <Text style={styles.coachSpecialty}>{item.specialty}</Text>
-                </View>
+                <Text style={styles.coachName}>{`${item.username} ${item.lastname}`}</Text>
+                <MaterialIcons name="fitness-center" size={24} color="yellow" />
             </View>
         </View>
     );
@@ -59,7 +27,7 @@ const Coachs = () => {
             <FlatList
                 data={coachs}
                 renderItem={renderItem}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item.username} 
             />
         </View>
     );
@@ -71,7 +39,7 @@ const styles = StyleSheet.create({
         padding: 16,
         backgroundColor: '#000000',
     },
-        coachContainer: {
+    coachContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#1c1c1c',
@@ -97,15 +65,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         color: '#00FFFF', 
-    },
-    specialtyContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    coachSpecialty: {
-        fontSize: 14,
-        color: 'yellow',
-        marginLeft: 8,
     },
 });
 
