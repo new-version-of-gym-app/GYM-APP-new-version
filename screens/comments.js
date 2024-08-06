@@ -89,11 +89,7 @@ const Comments = ({ route }) => {
             renderItem={Commentcrd}
             keyExtractor={(item) => item.comment_id}
           />
-          {/* <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-  {data.map((item) => (
-    <Commentcrd key={item.comment_id} itemlist={item} />
-  ))}
-</ScrollView> */}
+    
         </View>
       </TouchableWithoutFeedback>
       <View style={styles.inputContainer}>
