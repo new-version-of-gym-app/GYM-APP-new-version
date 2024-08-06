@@ -36,7 +36,7 @@ const Registerscreen = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
   const auth = FIREBASE_AUTH;
 
-  // Animations
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(height)).current;
 
