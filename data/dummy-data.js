@@ -166,22 +166,36 @@ export const NOTIFICATIONS = [
     read: false
   }
 ];
-
-// des programmes de sport 
-const programs = [
-  { id: '1', name: 'Yoga', duration: '30 min', description: 'A yoga program to start your day off right.', intensity: 'Low' },
-  { id: '2', name: 'Running', duration: '45 min', description: 'A running session to improve your endurance.', intensity: 'Medium' },
-  { id: '3', name: 'Strength Training', duration: '60 min', description: 'A strength training program to build your muscles.', intensity: 'High' },
-  { id: '4', name: 'HIIT', duration: '20 min', description: 'A high-intensity interval training to burn calories quickly.', intensity: 'Very High' },
-  { id: '5', name: 'Pilates', duration: '40 min', description: 'A pilates program to improve your flexibility and posture.', intensity: 'Low' },
-  { id: '6', name: 'Cycling', duration: '50 min', description: 'A cycling session to work your legs and cardio.', intensity: 'Medium' },
-  { id: '7', name: 'Boxing', duration: '45 min', description: 'A boxing workout to improve your strength and endurance.', intensity: 'High' },
-  { id: '8', name: 'Cardio Dance', duration: '35 min', description: 'A cardio dance program to burn calories while having fun.', intensity: 'Medium' },
-  { id: '9', name: 'Stretching', duration: '25 min', description: 'A stretching program to improve your flexibility and prevent injuries.', intensity: 'Low' },
-  { id: '10', name: 'CrossFit', duration: '55 min', description: 'A CrossFit workout for complete physical conditioning.', intensity: 'Very High' },
+const sports = [
+  { id: '1', name: 'Running', icon: '🏃', details: 'Duration: 30 mins\nBest Time: Morning\nBenefits: Improves cardiovascular health, burns calories.' },
+  { id: '2', name: 'Swimming', icon: '🏊', details: 'Duration: 45 mins\nBest Time: Any time\nBenefits: Full-body workout, improves flexibility.' },
+  { id: '3', name: 'Cycling', icon: '🚴', details: 'Duration: 60 mins\nBest Time: Afternoon\nBenefits: Strengthens legs, burns calories.' },
+  { id: '4', name: 'Weight-lifting', icon: '🏋️‍♂️', details: 'Duration: 40 mins\nBest Time: Evening\nBenefits: Builds muscle, increases strength.' },
+  { id: '5', name: 'Yoga', icon: '🧘‍♀️', details: 'Duration: 60 mins\nBest Time: Morning or Evening\nBenefits: Enhances flexibility, reduces stress.' },
 ];
 
-export default programs;
+const exercises = [
+  { id: '1', name: 'Cardio', bodyPart: 'Abdomen', duration: '20 mins', icon: '🔥', details: 'Involves high-intensity exercises to boost metabolism.' },
+  { id: '2', name: 'Push-Ups', bodyPart: 'Arms', duration: '15 mins', icon: '💪', details: 'Strengthens upper body, including chest and triceps.' },
+  { id: '3', name: 'Pull-Ups', bodyPart: 'Arms', duration: '10 mins', icon: '👉🏾', details: 'Targets back and arm muscles, improves upper body strength.' },
+  { id: '4', name: 'Planks', bodyPart: 'Core', duration: '30 mins', icon: '🦴', details: 'Strengthens the core muscles and improves stability.' },
+];
+
+const meals = [
+  { id: '1', name: 'Chicken Salad', composition: '200g chicken, 100g lettuce', icon: '🥗', details: 'Preparation: Grill chicken, mix with fresh lettuce, add dressing.' },
+  { id: '2', name: 'Oatmeal', composition: '50g oats, 200ml milk', icon: '🥣', details: 'Preparation: Cook oats in milk, add fruits or nuts for taste.' },
+  { id: '3', name: 'Brown Rice', composition: '100g brown rice, 200g water', icon: '🍚', details: 'Preparation: Boil rice in water until soft, serve with vegetables.' },
+  { id: '4', name: 'Vegetable Stir-Fry', composition: '50g vegetables, 200g broth', icon: '🥦', details: 'Preparation: Stir-fry vegetables in broth, season with spices.' },
+];
+
+const nutritionalAdvice = [
+  { id: '1', item: 'Apple', calories: '52 kcal per 100g', icon: '🍏', details: 'Rich in fiber and vitamins, great for a quick snack.' },
+  { id: '2', item: 'Cucumber', calories: '16 kcal per 100g', icon: '🥒', details: 'Low in calories, high in water, good for hydration.' },
+  { id: '3', item: 'Banana', calories: '105 kcal per 100g', icon: '🍌', details: 'High in potassium, ideal for pre- or post-workout energy.' },
+  { id: '4', item: 'Orange', calories: '60 kcal per 100g', icon: '🍊', details: 'Excellent source of vitamin C, supports immune health.' },
+];
+
+export { sports, exercises, meals, nutritionalAdvice };
 
 let FEED_ITEMS = [
   {
