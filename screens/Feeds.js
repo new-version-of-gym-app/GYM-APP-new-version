@@ -1,136 +1,186 @@
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   FlatList,
   Image,
-  TouchableOpacity,
   Pressable,
-} from "react-native";
-import { ipadresse } from "../config";
-import React from "react";
+  Animated,
+  RefreshControl,
+  Dimensions,
+  StatusBar,
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useFocusEffect } from '@react-navigation/native';
+import axios from 'axios';
+import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { ipadresse } from '../config';
 
-import { useEffect, useState, useLayoutEffect } from "react";
-import axios from "axios";
-import { LinearGradient } from "expo-linear-gradient";
-import { useFocusEffect } from "@react-navigation/native";
+const { width } = Dimensions.get('window');
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const Feeds = ({ route, navigation }) => {
-  const [data, setdata] = useState([]);
+  const [data, setData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const scrollY = new Animated.Value(0);
 
-  const fetchfeeds = async () => {
-    const result = await axios.get(`http:${ipadresse}:5000/get`);
-    setdata(result.data);
+  const fetchFeeds = async () => {
+    try {
+      const result = await axios.get(`http:${ipadresse}:5000/get`);
+      setData(result.data);
+    } catch (error) {
+      console.error('Error fetching feeds:', error);
+    }
   };
 
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await fetchFeeds();
+    setRefreshing(false);
+  }, []);
+
   useFocusEffect(
-    React.useCallback(() => {
-      fetchfeeds();
+    useCallback(() => {
+      fetchFeeds();
       if (route.params?.newfeed) {
-        setdata((data) => [route.params.newfeed, ...data]);
+        setData((prevData) => [route.params.newfeed, ...prevData]);
       }
     }, [route.params?.newfeed])
   );
 
+  const PostCard = ({ item, index }) => {
+    const inputRange = [-1, 0, (index + 1) * 300, (index + 2) * 300];
+    const opacity = scrollY.interpolate({
+      inputRange,
+      outputRange: [1, 1, 1, 0],
+    });
+    const scale = scrollY.interpolate({
+      inputRange,
+      outputRange: [1, 1, 1, 0.8],
+    });
 
-
-
-
-  const PostCard = (itemlist) => (
-    <View style={styles.postCard}>
-      <View style={styles.postHeader}>
-        <Image
-          source={{ uri: itemlist.item.photo }}
-          style={styles.postAvatar}
-        />
-        <Text style={styles.postUsername}>{itemlist.item.username}</Text>
-        <Text style={styles.postDate}>{itemlist.item.created_at}</Text>
-      </View>
-      <Text style={styles.postDescription}>{itemlist.item.feed_txt}</Text>
-
-      <View style={styles.postFooter}>
-        <Pressable  onPress={()=>navigation.navigate("Comments",{feed_id :itemlist.item.feeds_id })}>
-          <View style={styles.postButton}>
-            <Text style={styles.postButtonText}>Comment</Text>
+    return (
+      <Animated.View style={[styles.postCard, { opacity, transform: [{ scale }] }]}>
+        <View style={styles.postHeader}>
+          <Image source={{ uri: item.photo }} style={styles.postAvatar} />
+          <View style={styles.postHeaderText}>
+            <Text style={styles.postUsername}>{item.username}</Text>
+            <Text style={styles.postDate}>{item.created_at}</Text>
           </View>
-        </Pressable>
-      </View>
-    </View>
-  );
+        </View>
+        <Text style={styles.postDescription}>{item.feed_txt}</Text>
+        <View style={styles.postFooter}>
+          <Pressable
+            style={styles.commentButton}
+            onPress={() => navigation.navigate('Comments', { feed_id: item.feeds_id })}
+          >
+            <Ionicons name="chatbubble-outline" size={24} color="#4A90E2" />
+            <Text style={styles.commentButtonText}>Comment</Text>
+          </Pressable>
+        </View>
+      </Animated.View>
+    );
+  };
 
   return (
-    <LinearGradient style={styles.gradient} colors={["#FFDEE9", "#B5FFFC"]}>
-      <FlatList
-        data={data}
-        renderItem={PostCard}
-        keyExtractor={(item) => item.feeds_id}
-      />
-    </LinearGradient>
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
+      <LinearGradient
+        style={styles.gradient}
+        colors={['#1A1A1A', '#2C2C2C']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+      >
+        <AnimatedFlatList
+          data={data}
+          renderItem={({ item, index }) => <PostCard item={item} index={index} />}
+          keyExtractor={(item) => item.feeds_id}
+          contentContainerStyle={styles.listContainer}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            { useNativeDriver: true }
+          )}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#FFFFFF" />
+          }
+        />
+      </LinearGradient>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  garadient: {
+  container: {
     flex: 1,
-  },
-  imgcontainer: {
-    flex: 1,
+    backgroundColor: '#000000',
   },
   gradient: {
     flex: 1,
   },
-  img: {
-    opacity: 0.4,
+  listContainer: {
+    paddingTop: 20,
+    paddingBottom: 40,
   },
-
-  //////////////////////////////
-
-  background: {
-    flex: 1,
-    // other styling properties
-  },
-
   postCard: {
-    marginBottom: 10,
-    padding: 15,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    marginHorizontal: 13,
-    marginTop: 20,
+    marginBottom: 20,
+    padding: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 16,
+    marginHorizontal: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
   },
   postHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  postHeaderText: {
+    flex: 1,
   },
   postAvatar: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    marginRight: 10,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 15,
+    borderWidth: 2,
+    borderColor: '#4A90E2',
   },
   postUsername: {
-    flex: 1,
-    fontWeight: "bold",
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
   },
   postDate: {
-    fontSize: 12,
-    color: "#A9A9A9",
+    fontSize: 14,
+    color: '#888888',
+    marginTop: 2,
   },
   postDescription: {
     fontSize: 16,
-    color: "#00008B",
+    color: '#CCCCCC',
+    lineHeight: 24,
+    marginBottom: 15,
   },
-
   postFooter: {
-    flexDirection: "row",
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     marginTop: 10,
   },
-  postButton: {
-    marginHorizontal: 123,
+  commentButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(74, 144, 226, 0.1)',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
   },
-  postButtonText: {
-    color: "#808080",
+  commentButtonText: {
+    color: '#4A90E2',
+    marginLeft: 8,
+    fontWeight: '600',
   },
 });
 
