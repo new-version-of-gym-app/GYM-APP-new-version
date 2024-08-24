@@ -1,95 +1,93 @@
-import { View, Text, Image, ScrollView, StyleSheet } from "react-native";
+import React, { useEffect, useRef } from 'react';
+import { View, Text, ScrollView, StyleSheet, Animated } from 'react-native';
 
-const Overview = ({ title, imageUrl, steps }) => {
+const Overview = ({ steps }) => {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  }, []);
+
   return (
-    <ScrollView contentContainerStyle={Styles.scrollContent}>
-      <View style={Styles.imagecontainer}>
-        <Image style={Styles.image} source={{ uri: imageUrl }} />
-      </View>
-      <View style={Styles.titlecontainer}>
-        <Text style={Styles.title}>{title}</Text>
-      </View>
-      <View style={Styles.listContainer}>
-        {steps.map((ele, index) => (
-          <View key={index} style={Styles.listItemContainer}>
-            <Text style={Styles.listItem}>{ele}</Text>
-          </View>
-        ))}
-      </View>
+    <ScrollView contentContainerStyle={styles.scrollContent}>
+      <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+        <View style={styles.listContainer}>
+          {steps.map((step, index) => (
+            <Animated.View
+              key={index}
+              style={[
+                styles.listItemContainer,
+                {
+                  opacity: fadeAnim,
+                  transform: [
+                    {
+                      translateY: fadeAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [50, 0],
+                      }),
+                    },
+                  ],
+                },
+              ]}
+            >
+              <View style={styles.listItemContent}>
+                <Text style={styles.stepNumber}>{index + 1}</Text>
+                <Text style={styles.listItem}>{step}</Text>
+              </View>
+            </Animated.View>
+          ))}
+        </View>
+      </Animated.View>
     </ScrollView>
   );
 };
 
-const Styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    backgroundColor: "#f5f5f5",
-  },
+const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
-    justifyContent: "center",
     paddingVertical: 20,
   },
-  image: {
-    width: "100%",
-    height: 280,
-    borderRadius: 15,
-    marginVertical: 10,
-    marginHorizontal: 3,
-    borderColor: "#ddd",
-    borderWidth: 1,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "#333",
-    marginBottom: 15,
-    textShadowColor: 'rgba(0, 0, 0, 0.2)',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 2,
-    paddingHorizontal: 20,
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
   },
   listContainer: {
     flex: 1,
-    marginTop: 20,
     paddingHorizontal: 15,
   },
   listItemContainer: {
-    marginBottom: 10,
-    marginHorizontal: 15,
-    borderWidth: 0,
+    marginBottom: 15,
     borderRadius: 15,
-    backgroundColor: "#fff",
-    padding: 15,
-    shadowColor: "#000",
+    overflow: 'hidden',
+    elevation: 5,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3,
+  },
+  listItemContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#ffffff',
+  },
+  stepNumber: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#007AFF',
+    marginRight: 15,
+    width: 30,
   },
   listItem: {
-    fontSize: 16,
-    textAlign: "center",
-    color: "#333",
-  },
-  imagecontainer: {
     flex: 1,
-    paddingHorizontal: 20,
-  },
-  titlecontainer: {
-    marginVertical: 20,
-    borderBottomWidth: 2,
-    borderBottomColor: "#ddd",
-    marginHorizontal: 25,
-    paddingBottom: 10,
+    fontSize: 16,
+    color: '#333',
+    lineHeight: 24,
   },
 });
 
 export default Overview;
-
